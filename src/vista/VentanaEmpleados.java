@@ -78,4 +78,15 @@ public class VentanaEmpleados extends JFrame {
     private String tipoSeleccionado() {
         return (String) cmbTipo.getSelectedItem();
     }
+
+    private JScrollPane construirTabla() {
+        String[] columnas = {"Cédula", "Nombre", "Tipo", "Salario base", "Salario total"};
+        datosTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+                return false;
+            }
+        };
+
+    }
 }
