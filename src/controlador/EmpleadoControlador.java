@@ -72,4 +72,18 @@ public class EmpleadoControlador {
         }
         return new EmpleadoBase(cedula, nombre, salarioBase);
     }
+
+    public String agregarEmpleado(String cedula, String nombre, String salario, String tipo, String bonificacion) {
+
+        String error = validar(cedula, nombre, salario, tipo, bonificacion);
+        if (error != null) {
+            return error;
+        }
+        EmpleadoBase nuevo = construirEmpleado(cedula, nombre, salario, tipo, bonificacion);
+        if (repositorio.agregar(nuevo)) {
+            historial.add("AGREGADO:" + cedula + "-" + nombre);
+            return "Empleado agregado correctamente.";
+        }
+        return "Ya existe un empleado con la cédula" + cedula + ".";
+    }
 }
