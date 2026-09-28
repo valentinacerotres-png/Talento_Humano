@@ -55,5 +55,14 @@ public class EmpleadoControlador {
         if (cedula.isEmpty() || nombre.isEmpty()) {
             return "La cedula y el nombre son obligatorios.";
         }
+        if (!esNumeroValido(salario)) {
+            return "El salario debe ser un número positivo (sin puntos de miles).";
+        }
+        if (tipo.equals("Administrativo") && !esNumeroValido(bonificación)) {
+            return "La bonificación debe ser un número positivo.";
+        }
+        return null;
     }
+
+
 }
