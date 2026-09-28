@@ -57,5 +57,19 @@ public class VentanaEmpleados extends JFrame {
         campos.add(new JLabel("Bonificación (solo administrativos):"));
         campos.add(txtBonificacion);
         txtBonificacion.setEnabled(false);
+
+        JPanel botones = new JPanel(new FlowLayout());
+        JButton[] listaBotones = {btnAgregar, btnBuscar, btnActualizar, btnEliminar, btnLimpiar, btnHistorial};
+        for (JButton boton : listaBotones) {
+            botones.add(boton);
+        }
+
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        panel.add(campos, BorderLayout.CENTER);
+        panel.add(botones, BorderLayout.SOUTH);
+        return panel;
     }
+
+
 }
