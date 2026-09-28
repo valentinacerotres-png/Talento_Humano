@@ -91,4 +91,18 @@ public class EmpleadoControlador {
         historial.add("BÚSQUEDA:" + cedula);
         return repositorio.buscar(cedula);
     }
+
+    public String actualizarEmpleado(String cedula, String nombre, String salario, String tipo, String bonificacion) {
+
+        String error = validar(cedula, nombre, salario, tipo, bonificacion);
+        if (error != null) {
+            return error;
+        }
+        EmpleadoBase actualizado = construirEmpleado(cedula, nombre, salario, tipo, bonificacion);
+        if (repositorio.actualizar(actualizado)) {
+            historial.add("ACTUALIZADO:" + cedula + "-" + nombre);
+            return "Empleado actualizado correctamente.";
+        }
+        return "No existe ningún empleado con la cédula" + cedula + ".";
+    }
 }
