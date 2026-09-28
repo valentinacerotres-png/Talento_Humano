@@ -53,7 +53,7 @@ public class VentanaEmpleados extends JFrame {
         campos.add(new JLabel("Salario base:"));
         campos.add(txtSalario);
         campos.add(new JLabel("Tipo de empleado:"));
-        campos.add(cmTipo);
+        campos.add(cmbTipo);
         campos.add(new JLabel("Bonificación (solo administrativos):"));
         campos.add(txtBonificacion);
         txtBonificacion.setEnabled(false);
@@ -71,5 +71,11 @@ public class VentanaEmpleados extends JFrame {
         return panel;
     }
 
+    private String texto(JTextField campo) {
+        return campo.getText().trim();
+    }
 
+    private String tipoSeleccionado() {
+        return (String) cmbTipo.getSelectedItem();
+    }
 }
