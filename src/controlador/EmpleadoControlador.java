@@ -105,4 +105,14 @@ public class EmpleadoControlador {
         }
         return "No existe ningún empleado con la cédula" + cedula + ".";
     }
+
+    public String eliminarEmpleado(String cedula) {
+        if (repositorio.eliminar(cedula)) {
+            historial.add("ELIMINADO:" + cedula);
+            return "Empleado eliminado correctamente.";
+        }
+        return "No existe ningún empleado con la cédula" + cedula + ".";
+    }
+
+
 }
