@@ -44,7 +44,16 @@ public class EmpleadoControlador {
             char c = texto.charAt(i);
             if (c == '.') {
                 puntos++;
+            }else if (!Character.isDigit(c)) {
+                return false;
             }
+        }
+        return puntos <= 1;
+    }
+
+    private String validar(String cedula, String nombre, String salario, String tipo, String bonificación) {
+        if (cedula.isEmpty() || nombre.isEmpty()) {
+            return "La cedula y el nombre son obligatorios.";
         }
     }
 }
