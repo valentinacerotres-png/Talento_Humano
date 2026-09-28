@@ -34,4 +34,10 @@ public class EmpleadoControlador {
             repositorio.agregar(empleado);
         }
     }
+
+    private boolean esNumeroValido(String texto) {
+        if (texto.isEmpty() || texto.equals(".")) {
+            return false;
+        }
+    }
 }
