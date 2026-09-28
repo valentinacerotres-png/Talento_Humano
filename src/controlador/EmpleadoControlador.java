@@ -64,5 +64,12 @@ public class EmpleadoControlador {
         return null;
     }
 
-
+    private EmpleadoBase construirEmpleado(String cedula, String nombre, String salario, String tipo, String bonificacion) {
+        double salarioBase = Double.parseDouble(salario);
+        if (tipo.equals("Administrativo")) {
+            double bono = Double.parseDouble(bonificacion);
+            return new EmpleadoAdministrativo(cedula, nombre, salarioBase, bono);
+        }
+        return new EmpleadoBase(cedula, nombre, salarioBase);
+    }
 }
