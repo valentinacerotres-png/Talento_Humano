@@ -51,7 +51,7 @@ public class EmpleadoControlador {
         return puntos <= 1;
     }
 
-    private String validar(String cedula, String nombre, String salario, String tipo, String bonificación) {
+    private String validar(String cedula, String nombre, String salario, String tipo, String bonificación, String valorExtra) {
         if (cedula.isEmpty() || nombre.isEmpty()) {
             return "La cedula y el nombre son obligatorios.";
         }
@@ -60,6 +60,19 @@ public class EmpleadoControlador {
         }
         if (tipo.equals("Administrativo") && !esNumeroValido(bonificación)) {
             return "La bonificación debe ser un número positivo.";
+        }
+        if (tipo.equals("Comercial")) {
+            try {
+                double porcentaje = Double.parseDouble(valorExtra);
+                if (porcentaje > 50) {
+                    return "El porcentajede comisión no puede ser mayor a 50%.";
+                }
+                if (porcentaje < 0) {
+                    return "El porcentaje no puede ser negativo.";
+                }
+            }catch (NumberFormatException e) {
+                return "El valor de comisión debe ser un número";
+            }
         }
         return null;
     }
@@ -73,9 +86,9 @@ public class EmpleadoControlador {
         return new EmpleadoBase(cedula, nombre, salarioBase);
     }
 
-    public String agregarEmpleado(String cedula, String nombre, String salario, String tipo, String bonificacion) {
+    public String agregarEmpleado(String cedula, String nombre, String salario, String tipo, String bonificacion, String valorExtra) {
 
-        String error = validar(cedula, nombre, salario, tipo, bonificacion);
+        String error = validar(cedula, nombre, salario, tipo, bonificacion, valorExtra);
         if (error != null) {
             return error;
         }
@@ -92,9 +105,9 @@ public class EmpleadoControlador {
         return repositorio.buscar(cedula);
     }
 
-    public String actualizarEmpleado(String cedula, String nombre, String salario, String tipo, String bonificacion) {
+    public String actualizarEmpleado(String cedula, String nombre, String salario, String tipo, String bonificacion, String valorExtra) {
 
-        String error = validar(cedula, nombre, salario, tipo, bonificacion);
+        String error = validar(cedula, nombre, salario, tipo, bonificacion, valorExtra);
         if (error != null) {
             return error;
         }
