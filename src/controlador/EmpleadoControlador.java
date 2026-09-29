@@ -2,6 +2,7 @@ package controlador;
 
 import modelo.EmpleadoAdministrativo;
 import modelo.EmpleadoBase;
+import modelo.EmpleadoComercial;
 import modelo.RepositorioEmpleados;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class EmpleadoControlador {
 
     private void cargarDatosDePrueba() {
         String[] cedulas = {"1001", "1002", "1003", "1004"};
-        String[] nombres = {"Jesmin", "Gabriela", "David", "Emily"};
+        String[] nombres = {"Jesmin", "Gabriela", "Valen", "Emily"};
         double[] salarios = {1800000, 2500000, 1750000, 3200000};
 
         for (int i = 0; i < cedulas.length; i++) {
@@ -82,6 +83,9 @@ public class EmpleadoControlador {
         if (tipo.equals("Administrativo")) {
             double bono = Double.parseDouble(bonificacion);
             return new EmpleadoAdministrativo(cedula, nombre, salarioBase, bono);
+        } else if (tipo.equals("Comercial")) {
+            double comision = Double.parseDouble(bonificacion);
+            return new EmpleadoComercial(cedula, nombre, salarioBase, comision);
         }
         return new EmpleadoBase(cedula, nombre, salarioBase);
     }
