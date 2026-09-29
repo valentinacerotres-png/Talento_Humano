@@ -114,8 +114,13 @@ public class VentanaEmpleados extends JFrame {
     }
 
     private String formatoPesos(double valor) {
-        return String.format("$ %, .of", valor);
+        try {
+            return String.format("$ %,d", (long) valor);
+        } catch (Exception e) {
+            return "$ 0";
+        }
     }
+
 
     private void conectarEventos() {
         cmTipo.addActionListener(e -> {
