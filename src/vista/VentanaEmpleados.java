@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.EmpleadoControlador;
+import modelo.EmpleadoBase;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -87,6 +88,30 @@ public class VentanaEmpleados extends JFrame {
                 return false;
             }
         };
+        JTable tabla = new JTable(datosTabla);
+        JScrollPane scroll = new JScrollPane(tabla);
+        scroll.setBorder(BorderFactory.createTitledBorder("Empleados registrados"));
+        return scroll;
+    }
 
+    private void refrescarTabla() {
+        datosTabla.setRowCount(0);
+        for (EmpleadoBase empleado : controlador.obtenerEmpleados()) {
+            Object[] fila = {
+                    empleado.getCedula(),
+                    empleado.getNombre(),
+                    empleado.getTipo(),
+                    formatoPesos(empleado.getSalarioBase()),
+                    formatoPesos(empleado.calcularSalarioTotal())
+            };
+            datosTabla.addRow(fila);
+        }
+        lblResumen.setText("Empleados:" + datosTabla.getRowCount()
+                + "  |   Total nómina:"
+                + formatoPesos(controlador.calcularTotalNomina()) );
+    }
+
+    private String formatoPesos(double valor) {
+        return String.format("$ %, .of", valor);
     }
 }
