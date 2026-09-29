@@ -3,6 +3,7 @@ package vista;
 import controlador.EmpleadoControlador;
 import modelo.EmpleadoAdministrativo;
 import modelo.EmpleadoBase;
+import modelo.EmpleadoComercial;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -168,6 +169,10 @@ public class VentanaEmpleados extends JFrame {
         if (empleado instanceof EmpleadoAdministrativo) {
             EmpleadoAdministrativo administrativo =(EmpleadoAdministrativo) empleado;
             txtBonificacion.setText(String.format("%.of", administrativo.getBonificacion()));
+        } else if (empleado instanceof EmpleadoComercial) {
+            EmpleadoComercial comercial = (EmpleadoComercial) empleado;
+            txtBonificacion.setText(String.format("%.of", comercial.getPorcentajeComision()));
+
         }
     }
 
