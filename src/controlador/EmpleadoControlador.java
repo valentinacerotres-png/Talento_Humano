@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class EmpleadoControlador {
 
-    public static final String[] TIPOS_EMPLEADO = {"Operativo", "Administrativo"};
+    public static final String[] TIPOS_EMPLEADO = {"Operativo", "Administrativo", "Comercial"};
 
     private final RepositorioEmpleados repositorio;
     private final ArrayList<String> historial;
