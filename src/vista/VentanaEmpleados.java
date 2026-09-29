@@ -1,11 +1,13 @@
 package vista;
 
 import controlador.EmpleadoControlador;
+import modelo.EmpleadoAdministrativo;
 import modelo.EmpleadoBase;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class VentanaEmpleados extends JFrame {
 
@@ -54,7 +56,7 @@ public class VentanaEmpleados extends JFrame {
         campos.add(new JLabel("Salario base:"));
         campos.add(txtSalario);
         campos.add(new JLabel("Tipo de empleado:"));
-        campos.add(cmbTipo);
+        campos.add(cmTipo);
         campos.add(new JLabel("Bonificación (solo administrativos):"));
         campos.add(txtBonificacion);
         txtBonificacion.setEnabled(false);
@@ -77,7 +79,7 @@ public class VentanaEmpleados extends JFrame {
     }
 
     private String tipoSeleccionado() {
-        return (String) cmbTipo.getSelectedItem();
+        return (String) cmTipo.getSelectedItem();
     }
 
     private JScrollPane construirTabla() {
@@ -116,7 +118,7 @@ public class VentanaEmpleados extends JFrame {
     }
 
     private void conectarEventos() {
-        cmbTipo.addActionListener(e -> {
+        cmTipo.addActionListener(e -> {
             boolean esAdministrativo = tipoSeleccionado().equals("Administrativo");
             txtBonificacion.setEnabled(esAdministrativo);
             if (!esAdministrativo){
@@ -124,11 +126,11 @@ public class VentanaEmpleados extends JFrame {
             }
         });
 
-        btnAgregar.addActionListener(e -> mostraresultado(controlador.agregarEmpleado(
+        btnAgregar.addActionListener(e -> mostrarResultado(controlador.agregarEmpleado(
                 texto(txtCedula), texto(txtNombre), texto(txtSalario),
                 tipoSeleccionado(), texto(txtBonificacion))));
 
-        btnActualizar.addActionListener(e -> mostraresultado(controlador.actualizarEmpleado(
+        btnActualizar.addActionListener(e -> mostrarResultado(controlador.actualizarEmpleado(
                 texto(txtCedula), texto(txtNombre), texto(txtSalario),
                 tipoSeleccionado(), texto(txtBonificacion))));
 
@@ -136,5 +138,64 @@ public class VentanaEmpleados extends JFrame {
         btnEliminar.addActionListener(e -> eliminar());
         btnLimpiar.addActionListener(e -> limpiarFormulario());
         btnHistorial.addActionListener(e -> mostrarHistorial());
+    }
+
+    private void mostrarResultado(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+        refrescarTabla();
+    }
+
+    private void buscar() {
+        String cedula = texto(txtCedula);
+        if (cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Escribe una cédula para buscar.");
+            return;
+        }
+        EmpleadoBase empleado = controlador.buscarEmpleados(cedula);
+        if (empleado == null) {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún empleado con la cédula" + cedula + ".");
+            return;
+        }
+        txtNombre.setText(empleado.getNombre());
+        txtSalario.setText(String.format("%.of", empleado.getSalarioBase()));
+        cmTipo.setSelectedItem(empleado.getTipo());
+        if (empleado instanceof EmpleadoAdministrativo) {
+            EmpleadoAdministrativo administrativo =(EmpleadoAdministrativo) empleado;
+            txtBonificacion.setText(String.format("%.of", administrativo.getBonificacion()));
+        }
+    }
+
+    private void eliminar() {
+        String cedula = texto(txtCedula);
+        int respuesta = JOptionPane.showConfirmDialog(this,
+                "¿Seguro que deseas eliminar al empleado con cédula" + cedula + "?",
+                "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_NO_OPTION) {
+            mostrarResultado(controlador.eliminarEmpleado(cedula));
+            limpiarFormulario();
+        }
+    }
+
+    private void limpiarFormulario() {
+        txtCedula.setText("");
+        txtNombre.setText("");
+        txtSalario.setText("");
+        txtBonificacion.setText("");
+        cmTipo.setSelectedIndex(0);
+        txtCedula.requestFocus();
+    }
+
+    private void mostrarHistorial() {
+        ArrayList<String> historial = controlador.obtenerHistorial();
+        if (historial.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Aún no hay operaciones registradas.");
+            return;
+        }
+        String texto = "";
+        for (int i = 0; i < historial.size(); i++) {
+            texto += (i + 1) + "." + historial.get(i) + "\n";
+        }
+        JOptionPane.showMessageDialog(this, texto, "Historial de operaciones",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 }
