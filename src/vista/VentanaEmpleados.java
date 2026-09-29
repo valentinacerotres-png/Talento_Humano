@@ -57,7 +57,7 @@ public class VentanaEmpleados extends JFrame {
         campos.add(txtSalario);
         campos.add(new JLabel("Tipo de empleado:"));
         campos.add(cmTipo);
-        campos.add(new JLabel("Bonificación (solo administrativos):"));
+        campos.add(new JLabel("Bonificación / Comisión %:"));
         campos.add(txtBonificacion);
         txtBonificacion.setEnabled(false);
 
