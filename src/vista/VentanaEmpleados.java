@@ -114,4 +114,14 @@ public class VentanaEmpleados extends JFrame {
     private String formatoPesos(double valor) {
         return String.format("$ %, .of", valor);
     }
+
+    private void conectarEventos() {
+        cmbTipo.addActionListener(e -> {
+            boolean esAdministrativo = tipoSeleccionado().equals("Administrativo");
+            txtBonificacion.setEnabled(esAdministrativo);
+            if (!esAdministrativo){
+                txtBonificacion.setText("");
+            }
+        });
+    }
 }
